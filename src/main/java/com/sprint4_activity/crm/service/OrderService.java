@@ -56,8 +56,13 @@ public class OrderService {
             if (product == null) {
                 throw new ProductNotFoundException("Produto não encontrado: " + request.getProductID().get(i));
             }
-            products.add(product);
-            price = price + request.getProductQuantity().get(i) * product.getPrice();
+            if(product.getQuantity() >= request.getProductQuantity().get(i)){
+                products.add(product);
+                price = price + request.getProductQuantity().get(i) * product.getPrice();
+            }else{
+                throw new ProductNotFoundException("Product id: " + product.getId() + " Quantity of available product: " + product.getQuantity() + " Quantaty of product requested: " + request.getProductQuantity().get(i));
+            }
+
         }
         Order order = new Order();
         order.setProducts(products);
