@@ -72,6 +72,5 @@ public class OrderService {
         order.setPrice(price);
         client.getOrders().add(order);
         return repository.save(order);
-
     }
 }

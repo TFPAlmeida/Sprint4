@@ -82,4 +82,8 @@ public class ProductService {
         repository.deleteById(id);
         return new ResponseEntity<>("Product deleted", HttpStatus.OK);
     }
+
+    public List<Long> findProductsInOrdersByCategory(String cat){
+        return repository.findProductsInOrdersByCategory(cat);
+    }
 }

@@ -68,4 +68,9 @@ public class ProductController {
         return service.deleteProduct(id);
     }
 
+    @GetMapping("/findProductsInOrdersByCategory/{cat}")
+    public ResponseEntity<List<Long>> findProductsInOrderByCategory(@PathVariable String cat){
+        return  ResponseEntity.ok(service.findProductsInOrdersByCategory(cat));
+    }
+
 }
