@@ -5,6 +5,8 @@ import java.util.List;
 import com.sprint4_activity.crm.entity.Order;
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.PredefinedScopeHibernateValidator;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +67,21 @@ public class ClientController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable long id) {
         return service.deleteClient(id);
+    }
+
+    @GetMapping("/getClientByIdRange/{min}/{max}")
+    public ResponseEntity<List<Client>> findClientsByIdRange(@PathVariable long min, @PathVariable long max){
+        return ResponseEntity.ok(service.getClientByIdRange(min, max));
+    }
+
+    @GetMapping("/findClientByIdRange/{min}/{max}")
+    public ResponseEntity<List<Client>> getClientRange(@PathVariable long min, @PathVariable long max) {
+        return ResponseEntity.ok(service.findClientByIdRange(min, max));
+    }
+
+    @GetMapping("/getOrdersByClientId/{id}")
+    public ResponseEntity<List<Long>> getOrdersByClientId(@PathVariable long id){
+        return  ResponseEntity.ok(service.getOrdersByclientId(id));
     }
 
 }

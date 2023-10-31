@@ -82,5 +82,16 @@ public class ClientService {
         return client.getOrders();
     }
 
+    public List<Client> getClientByIdRange(long min, long max){
+        return repository.getClientByIdRange(min, max);
+    }
+
+    public List<Client> findClientByIdRange(long min, long max) {
+        return repository.findClientByIdRange(min, max);
+    }
+
+    public List<Long> getOrdersByclientId(long id){
+        return repository.getOrdersByClientId(id);
+    }
 
 }
