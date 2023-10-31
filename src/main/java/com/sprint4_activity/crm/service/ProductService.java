@@ -28,6 +28,8 @@ public class ProductService {
         product.setName(request.getName());
         product.setQuantity(request.getQuantity());
         product.setPrice(request.getPrice());
+        product.setBarcode(request.getBarcode());
+        product.setCategory(request.getCategory());
         return repository.save(product);
     }
 
@@ -38,6 +40,8 @@ public class ProductService {
             product.setName(request.getName());
             product.setQuantity(request.getQuantity());
             product.setPrice(request.getPrice());
+            product.setBarcode(request.getBarcode());
+            product.setCategory(request.getCategory());
             products.add(product);
         }
         return repository.saveAll(products);

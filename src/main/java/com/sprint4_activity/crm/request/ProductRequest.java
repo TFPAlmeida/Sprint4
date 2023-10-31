@@ -22,4 +22,12 @@ public class ProductRequest {
 	
 	@Min(value = 0, message  = "price shouldn't be less than zero!")
 	private float price;
+
+	@NotNull
+	@NotEmpty(message = "Product BarCode shouldn't be null!")
+	private String barcode;
+
+	@NotNull
+	@NotEmpty(message = "Product Category shouldn't be null!")
+	private String category;
 }

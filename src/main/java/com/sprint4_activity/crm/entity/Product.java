@@ -22,5 +22,7 @@ public class Product {
 	private String name;
 	private long quantity;
 	private float price;
+	private String barcode;
+	private String category;
 	
 }
