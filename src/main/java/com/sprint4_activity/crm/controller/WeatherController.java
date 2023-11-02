@@ -1,7 +1,11 @@
 package com.sprint4_activity.crm.controller;
 
 
+import com.sprint4_activity.crm.Weather.WeatherData;
+import com.sprint4_activity.crm.Weather.WeatherDetails;
+import com.sprint4_activity.crm.service.Weatherservice;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,20 +15,27 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
 
-    @GetMapping("/tempo/{latitude}/{longitude}")
-    public List<Object> getweather(@PathVariable String latitude, @PathVariable String longitude){
-        String apiKey = "9617l9zTTbSQQEeivtBvKPqh8Ovl4U5d";
-        String baseUrl = "https://api.tomorrow.io/v4/weather/forecast";
-        String location = latitude + "," + longitude;
-        String fullUrl = baseUrl + "?location=" + location + "&apikey=" + apiKey;
+    private Weatherservice service;
 
-        RestTemplate template = new RestTemplate();
-        Object[] objects = new Object[]{template.getForObject(fullUrl, Object.class)};
-        return Arrays.asList(objects);
+    @GetMapping("/tempo/{latitude}/{longitude}")
+    public ResponseEntity<List<Object>> getweather(@PathVariable double latitude, @PathVariable double longitude) {
+        return ResponseEntity.ok(service.getweather(latitude,longitude));
     }
+
+    @GetMapping("/getWeatherData/{globalIdLocal}")
+    public ResponseEntity<WeatherData> getweatherData(@PathVariable int globalIdLocal) {
+        return ResponseEntity.ok(service.getweatherData(globalIdLocal));
+    }
+
+    @GetMapping("/getWeatherDetails/{globalIdLocal}")
+    public ResponseEntity<List<WeatherDetails>> detweatherdetails(@PathVariable int globalIdLocal) {
+        return ResponseEntity.ok(service.getWeatherDetails(globalIdLocal));
+    }
+
+
 }
