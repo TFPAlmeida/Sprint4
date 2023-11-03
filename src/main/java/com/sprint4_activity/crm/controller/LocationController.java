@@ -1,10 +1,9 @@
 package com.sprint4_activity.crm.controller;
 
-import com.sprint4_activity.crm.Location.LocationData;
-import com.sprint4_activity.crm.Location.LocationDetails;
-import com.sprint4_activity.crm.Auxiliary.ApiResponse;
-import com.sprint4_activity.crm.Auxiliary.ApiResult;
-import com.sprint4_activity.crm.Auxiliary.ApiBoundingBox;
+import com.sprint4_activity.crm.location.LocationData;
+import com.sprint4_activity.crm.location.LocationDetails;
+import com.sprint4_activity.crm.auxiliary.ApiResponse;
+import com.sprint4_activity.crm.auxiliary.ApiBoundingBox;
 import com.sprint4_activity.crm.service.LocationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 @AllArgsConstructor

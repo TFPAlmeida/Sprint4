@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sprint4_activity.crm.entity.Order;
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
+import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.PredefinedScopeHibernateValidator;
 import org.hibernate.validator.constraints.ParameterScriptAssert;
@@ -82,6 +83,11 @@ public class ClientController {
     @GetMapping("/getOrdersByClientId/{id}")
     public ResponseEntity<List<Long>> getOrdersByClientId(@PathVariable long id){
         return  ResponseEntity.ok(service.getOrdersByclientId(id));
+    }
+
+    @GetMapping("/getDelivaryDayStatus/{clientId}/{orderId}")
+    public ResponseEntity<String> getDelivaryDayStatus(@PathVariable long clientId, @PathVariable long orderId) throws OrderNotFoundException, ClientNotFoundException {
+        return service.delivaryDataStatus(clientId, orderId);
     }
 
 }

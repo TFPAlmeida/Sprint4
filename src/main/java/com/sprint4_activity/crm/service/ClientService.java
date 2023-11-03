@@ -1,10 +1,12 @@
 package com.sprint4_activity.crm.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
+import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class ClientService {
     public Client saveClient(ClientRequest request) {
         Client client = new Client();
         client.setName(request.getName());
+        client.setLocal(request.getLocal());
         return repository.save(client);
     }
 
@@ -40,6 +43,7 @@ public class ClientService {
         for (ClientRequest clientRequest : requests) {
             Client client = new Client();
             client.setName(clientRequest.getName());
+            client.setLocal(clientRequest.getLocal());
             clients.add(client);
         }
 
@@ -80,6 +84,17 @@ public class ClientService {
             throw new ClientNotFoundException("Client not found with id: " + id);
         }
         return client.getOrders();
+    }
+
+    public ResponseEntity<String> delivaryDataStatus(long clientId, long orderId) throws OrderNotFoundException, ClientNotFoundException {
+        Client client = getClientById(clientId);
+        Order order = client.getOrders().get((int) orderId-1);
+        long days = ChronoUnit.DAYS.between(order.getCreationDate(), order.getDeliverDate());
+        if(order.getCreationDate().plusDays(1) == order.getDeliverDate()){
+            return new ResponseEntity<>("Order vai ser entrega dentro de previsto: " + order.getCreationDate().plusDays(1), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Devido ao tempo climático vai haver um atraso de  " + days + " dias. Data prvista: " + order.getDeliverDate(), HttpStatus.OK);
+        }
     }
 
     public List<Client> getClientByIdRange(long min, long max){

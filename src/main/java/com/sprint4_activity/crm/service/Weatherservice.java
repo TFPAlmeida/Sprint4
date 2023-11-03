@@ -1,7 +1,7 @@
 package com.sprint4_activity.crm.service;
 
-import com.sprint4_activity.crm.Weather.WeatherData;
-import com.sprint4_activity.crm.Weather.WeatherDetails;
+import com.sprint4_activity.crm.weather.WeatherData;
+import com.sprint4_activity.crm.weather.WeatherDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;

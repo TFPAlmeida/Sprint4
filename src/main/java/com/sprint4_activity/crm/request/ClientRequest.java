@@ -15,5 +15,8 @@ public class ClientRequest {
 	@NotNull
 	@NotEmpty(message = "Client name shouldn't be null!")
 	private String name;
+	@NotNull
+	@NotEmpty(message = "Client local shouldn't be null!")
+	private String local;
 	
 }

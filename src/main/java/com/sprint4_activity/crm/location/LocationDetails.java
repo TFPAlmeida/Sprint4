@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.Location;
+package com.sprint4_activity.crm.location;
 
 import lombok.Data;
 

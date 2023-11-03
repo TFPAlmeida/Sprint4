@@ -1,10 +1,10 @@
 package com.sprint4_activity.crm.service;
 
-import com.sprint4_activity.crm.Auxiliary.ApiBoundingBox;
-import com.sprint4_activity.crm.Auxiliary.ApiResponse;
-import com.sprint4_activity.crm.Auxiliary.ApiResult;
-import com.sprint4_activity.crm.Location.LocationData;
-import com.sprint4_activity.crm.Location.LocationDetails;
+import com.sprint4_activity.crm.auxiliary.ApiBoundingBox;
+import com.sprint4_activity.crm.auxiliary.ApiResponse;
+import com.sprint4_activity.crm.auxiliary.ApiResult;
+import com.sprint4_activity.crm.location.LocationData;
+import com.sprint4_activity.crm.location.LocationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;

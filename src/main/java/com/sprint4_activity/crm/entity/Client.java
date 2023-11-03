@@ -24,6 +24,7 @@ public class Client {
 	@OneToMany
 	@JsonIgnore
 	private List<Order> orders = new ArrayList<>();
+	private String local;
 
 	public void addOrder(Order order) {
         this.getOrders().add(order);

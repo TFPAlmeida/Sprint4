@@ -1,6 +1,7 @@
 package com.sprint4_activity.crm.advice;
 
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
+import com.sprint4_activity.crm.exception.DaysException;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,14 @@ public class AplicationExceptionHandler {
     public Map<String, String> handleProductException(ProductNotFoundException ex){
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(DaysException.class)
+    public Map<String, String> handleDaysException(DaysException ex){
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("Message", ex.getMessage());
         return errorMap;
     }
 

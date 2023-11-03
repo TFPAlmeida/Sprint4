@@ -3,6 +3,7 @@ package com.sprint4_activity.crm.controller;
 import java.util.List;
 
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
+import com.sprint4_activity.crm.exception.DaysException;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.request.OrderRequest;
@@ -37,8 +38,13 @@ public class OrderController {
     }
 
     @PostMapping("/placeOrder")
-    public ResponseEntity<Order> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException{
+    public ResponseEntity<Order> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException, DaysException {
         Order order = service.placeOrder(orderRequest);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getDelivaryDayStatus/{orderId}")
+    public ResponseEntity<String> getDelivaryDayStatus(@PathVariable long orderId) throws OrderNotFoundException {
+        return service.delivaryDataStatus(orderId);
     }
 }

@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.Auxiliary;
+package com.sprint4_activity.crm.auxiliary;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

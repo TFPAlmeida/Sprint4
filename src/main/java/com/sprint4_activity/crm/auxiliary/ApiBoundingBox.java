@@ -1,8 +1,6 @@
-package com.sprint4_activity.crm.Auxiliary;
+package com.sprint4_activity.crm.auxiliary;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class ApiBoundingBox {

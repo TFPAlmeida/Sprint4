@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.Weather;
+package com.sprint4_activity.crm.weather;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
