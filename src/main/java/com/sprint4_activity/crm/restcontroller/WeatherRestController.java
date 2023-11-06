@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.controller;
+package com.sprint4_activity.crm.restcontroller;
 
 
 import com.sprint4_activity.crm.weather.WeatherData;
@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/weather")
-public class WeatherController {
+public class WeatherRestController {
 
     private Weatherservice service;
 

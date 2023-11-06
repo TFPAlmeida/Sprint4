@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.controller;
+package com.sprint4_activity.crm.restcontroller;
 
 import com.sprint4_activity.crm.location.LocationData;
 import com.sprint4_activity.crm.location.LocationDetails;
@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/coordenates")
-public class LocationController {
+public class LocationRestController {
 
     private LocationService service;
 

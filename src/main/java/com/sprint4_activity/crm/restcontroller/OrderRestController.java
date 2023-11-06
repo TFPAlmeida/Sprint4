@@ -1,4 +1,4 @@
-package com.sprint4_activity.crm.controller;
+package com.sprint4_activity.crm.restcontroller;
 
 import java.util.List;
 
@@ -8,11 +8,8 @@ import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.request.OrderRequest;
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.sprint4_activity.crm.entity.Order;
@@ -23,7 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/orders")
-public class OrderController {
+public class OrderRestController {
 
     private OrderService service;
 
