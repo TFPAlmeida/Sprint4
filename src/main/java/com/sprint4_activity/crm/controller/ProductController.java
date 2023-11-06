@@ -71,7 +71,7 @@ public class ProductController {
         return "redirect:/ProductList";
     }
 
-    @GetMapping("/roducts/barcode")
+    @GetMapping("/products/barcode")
     public ModelAndView getProductsByBarcode(@RequestParam("barcode") String barcode){
         List<Product> products = new ArrayList<>();
         ModelAndView mv = new ModelAndView("ProductList");
