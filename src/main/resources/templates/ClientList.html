@@ -38,6 +38,7 @@
         <th scope="col">Name</th>
         <th scope="col">City</th>
         <th scope="col">#</th>
+        <th scope="col">#</th>
 
     </tr>
     </thead>
@@ -46,7 +47,8 @@
         <td th:text="${client.id}"></td>
         <td th:text="${client.name}"></td>
         <td th:text="${client.local}"></td>
-        <td><a th:href="@{'/edit/'+${client.id}}">Editar</a>
+        <td><a th:href="@{'/editClient/'+${client.id}}">Editar</a>
+        <td><a th:href="@{'/removeClient/'+${client.id}}">Remove</a>
         </td>
     </tr>
     </tbody>

@@ -10,7 +10,7 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <link rel="stylesheet" href="css/style.css">
-    <title>UpdateClient</title>
+    <title>UpdateProduct</title>
 </head>
 <body>
 
@@ -29,16 +29,27 @@
     </div>
 </nav>
 
-<form method="POST" action="/SaveClient" th:object="${client}">
-    <input type="hidden" th:value="${client.id}" name="id" />
+<form method="POST" action="/UpdateProduct" th:object="${product}">
+    <input type="hidden" th:value="${product.id}" name="id" />
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" name="name" th:value="${client.name}">
+        <input type="text" class="form-control" name="name" th:value="${product.name}">
     </div>
-
     <div class="mb-3">
-        <label class="form-label">City</label>
-        <input type="text" class="form-control" name="local" th:value="${client.local}">
+        <label class="form-label">Quantity</label>
+        <input type="text" class="form-control" name="local" th:value="${product.quantity}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input type="text" class="form-control" name="local" th:value="${product.price}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Barcode</label>
+        <input type="text" class="form-control" name="local" th:value="${product.barcode}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input type="text" class="form-control" name="local" th:value="${product.category}">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

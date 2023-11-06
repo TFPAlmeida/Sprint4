@@ -5,6 +5,7 @@ import com.sprint4_activity.crm.entity.Client;
 import com.sprint4_activity.crm.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,12 +44,20 @@ public class ClientController {
         return mv;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editClient/{id}")
     public ModelAndView editClients(@PathVariable("id") long id){
         ModelAndView mv = new ModelAndView("SaveClient");
         System.out.println(id);
         Client clientfound = repository.findById(id).orElse(null);
         mv.addObject("client", clientfound);
+        return mv;
+    }
+
+    @GetMapping("/removeClient/{id}")
+    public ModelAndView removeClients(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("ClientList");
+        repository.deleteById(id);
+        mv.addObject("clients", repository.findAll());
         return mv;
     }
 

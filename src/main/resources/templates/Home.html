@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt">
+<html lang="pt" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/CreateClientView">Client</a></li>
-                        <li><a class="dropdown-item" href="#">Product</a></li>
+                        <li><a class="dropdown-item" href="/CreateProduct">Product</a></li>
                         <li><a class="dropdown-item" href="#">Order</a></li>
                     </ul>
                 </li>
@@ -37,11 +37,19 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <li><a class="dropdown-item" href="/ClientList">Clients</a></li>
-                        <li><a class="dropdown-item" href="#">Products</a></li>
+                        <li><a class="dropdown-item" href="/ProductList">Products</a></li>
                         <li><a class ="dropdown-item" href="#">Orders</a></li>
                     </ul>
                 </li>
             </ul>
+            <form class="d-flex" role="search" th:action="@{'/products/barcode'}" method="GET">
+                <input class="form-control me-2" type="text" id="search-item1"  name="barcode" placeholder="Barcode" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <form class="d-flex" role="search" th:action="@{'/products/category'}" method="GET">
+                <input class="form-control me-2" type="text" id="search-item2"  name="category" placeholder="Category" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>
