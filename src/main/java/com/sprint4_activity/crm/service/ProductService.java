@@ -3,8 +3,10 @@ package com.sprint4_activity.crm.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sprint4_activity.crm.entity.Category;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
+import com.sprint4_activity.crm.repository.CatergoryRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class ProductService {
 
     private ProductRepository repository;
+    private CatergoryRepository catergoryRepository;
 
     public Product saveProduct(ProductRequest request) {
         Product product = new Product();
@@ -29,7 +32,16 @@ public class ProductService {
         product.setQuantity(request.getQuantity());
         product.setPrice(request.getPrice());
         product.setBarcode(request.getBarcode());
-        product.setCategory(request.getCategory());
+        Category cat;
+
+        if (catergoryRepository.findCatByName(request.getCategory()) == null){
+            cat = new Category();
+            cat.setName(request.getCategory());
+            catergoryRepository.save(cat);
+        }else{
+            cat = catergoryRepository.findCatByName(request.getCategory());
+        }
+        product.setCategory(cat);
         return repository.save(product);
     }
 
@@ -41,7 +53,16 @@ public class ProductService {
             product.setQuantity(request.getQuantity());
             product.setPrice(request.getPrice());
             product.setBarcode(request.getBarcode());
-            product.setCategory(request.getCategory());
+            Category cat;
+
+            if (catergoryRepository.findCatByName(request.getCategory()) == null){
+                cat = new Category();
+                cat.setName(request.getCategory());
+                catergoryRepository.save(cat);
+            }else{
+                cat = catergoryRepository.findCatByName(request.getCategory());
+            }
+            product.setCategory(cat);
             products.add(product);
         }
         return repository.saveAll(products);
