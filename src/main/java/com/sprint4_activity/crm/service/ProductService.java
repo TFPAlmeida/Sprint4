@@ -104,7 +104,7 @@ public class ProductService {
         return new ResponseEntity<>("Product deleted", HttpStatus.OK);
     }
 
-    public List<Long> findProductsInOrdersByCategory(String cat){
+    public List<Product> findProductsInOrdersByCategory(String cat){
         return repository.findProductsInOrdersByCategory(cat);
     }
 }

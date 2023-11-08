@@ -33,7 +33,7 @@ class ClientRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should not get Client from DB when user not exists")
+    @DisplayName("Should not get Client from DB when Client not exists")
     void getClientByIdRangeCase2() {
 
         List<Client> result = clientRepository.findClientByIdRange(0,1);
@@ -53,7 +53,7 @@ class ClientRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should not get Client from DB when user not exists")
+    @DisplayName("Should not get Client from DB when Client not exists")
     void findClientByIdRangeCase2() {
 
         List<Client> result = clientRepository.findClientByIdRange(0,1);

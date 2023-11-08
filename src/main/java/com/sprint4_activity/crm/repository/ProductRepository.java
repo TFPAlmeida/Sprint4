@@ -23,9 +23,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	Product findProductByBarCode(String bc);
 
 	@Query(value = "SELECT P.* FROM PRODUCTS_TBL AS P INNER JOIN CATEGORY_TBL AS C ON P.CATEGORY_ID = C.CATEGORY_ID WHERE C.NAME = :cat", nativeQuery = true)
-	public List<Product> findProductsByCategory(String cat);
+	List<Product> findProductsByCategory(String cat);
 
-	@Query(value = "SELECT PRODUCT_ID FROM ORDER_PRODUCT INNER JOIN PRODUCTS_TBL ON ORDER_PRODUCT.PRODUCT_ID = PRODUCTS_TBL.ID WHERE PRODUCTS_TBL.CATEGORY =:cat", nativeQuery = true)
-	public List<Long> findProductsInOrdersByCategory(String cat);
+	@Query(value = "SELECT * FROM PRODUCTS_TBL AS P INNER JOIN ORDER_PRODUCT AS O ON O.PRODUCT_ID = P.ID INNER JOIN CATEGORY_TBL AS C ON P.CATEGORY_ID = C.CATEGORY_ID WHERE C.NAME = :cat", nativeQuery = true)
+	List<Product> findProductsInOrdersByCategory(String cat);
 
 }

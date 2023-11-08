@@ -66,7 +66,7 @@ public class ProductRestController {
     }
 
     @GetMapping("/findProductsInOrdersByCategory/{cat}")
-    public ResponseEntity<List<Long>> findProductsInOrderByCategory(@PathVariable String cat){
+    public ResponseEntity<List<Product>> findProductsInOrderByCategory(@PathVariable String cat){
         return  ResponseEntity.ok(service.findProductsInOrdersByCategory(cat));
     }
 
