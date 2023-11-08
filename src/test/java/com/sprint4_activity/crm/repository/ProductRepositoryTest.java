@@ -27,6 +27,9 @@ class ProductRepositoryTest {
     private CatergoryRepository catergoryRepository;
 
     @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
     @Test
@@ -76,7 +79,7 @@ class ProductRepositoryTest {
     void findProductsInOrdersByCategory() {
     }
 
-    private void createProduct(ProductRequest request){
+    public Product createProduct(ProductRequest request){
         Product product = new Product();
         product.setName(request.getName());
         product.setQuantity(request.getQuantity());
@@ -87,5 +90,6 @@ class ProductRepositoryTest {
         entityManager.persist(category);
         product.setCategory(category);
         entityManager.persist(product);
+        return product;
     }
 }
