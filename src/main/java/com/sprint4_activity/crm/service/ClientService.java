@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sprint4_activity.crm.dtos.ClientDTOs;
+import com.sprint4_activity.crm.dtos.OrderDTOs;
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.repository.OrderRepository;
@@ -29,40 +31,48 @@ public class ClientService {
 
     private ClientRepository repository;
 
-    public Client saveClient(ClientRequest request) {
+    public ClientDTOs saveClient(ClientRequest request) {
         Client client = new Client();
         client.setName(request.getName());
-        return repository.save(client);
+        return new ClientDTOs(repository.save(client));
     }
 
-    public List<Client> saveClients(List<ClientRequest> requests) {
+    public List<ClientDTOs> saveClients(List<ClientRequest> requests) {
         List<Client> clients = new ArrayList<>();
+        List<ClientDTOs> clientDTOsList = new ArrayList<>();
         for (ClientRequest clientRequest : requests) {
             Client client = new Client();
             client.setName(clientRequest.getName());
             clients.add(client);
+            ClientDTOs clientDTOs = new ClientDTOs(client);
+            clientDTOsList.add(clientDTOs);
         }
-
-        return repository.saveAll(clients);
+        repository.saveAll(clients);
+        return clientDTOsList;
     }
 
-    public List<Client> getAllClients() {
-        return repository.findAll();
+    public List<ClientDTOs> getAllClients() {
+        List<ClientDTOs> clientDTOsList = new ArrayList<>();
+        for (Client client: repository.findAll()) {
+            ClientDTOs clientDTOs = new ClientDTOs(client);
+            clientDTOsList.add(clientDTOs);
+        }
+        return clientDTOsList;
     }
 
-    public Client getClientById(long id) throws ClientNotFoundException {
+    public ClientDTOs getClientById(long id) throws ClientNotFoundException {
         if (repository.existsById(id)) {
-            return repository.findClientById(id);
+            return new ClientDTOs(repository.findClientById(id));
         } else {
             throw new ClientNotFoundException("Client not found with id: " + id);
         }
     }
 
-    public Client updateClient(Client client) throws ClientNotFoundException {
+    public ClientDTOs updateClient(Client client) throws ClientNotFoundException {
         if (!repository.existsById(client.getId())) {
             throw new ClientNotFoundException("Client not found with id: " + client.getId());
         }
-        return repository.save(client);
+        return new ClientDTOs(repository.save(client));
     }
 
     public ResponseEntity<String> deleteClient(long id) {
@@ -74,12 +84,17 @@ public class ClientService {
         return new ResponseEntity<>("Client deleted", HttpStatus.OK);
     }
 
-    public List<Order> getOrdersForClient(Long id) throws ClientNotFoundException {
-        Client client = getClientById(id);
-        if(client == null){
+    public List<OrderDTOs> getOrdersForClient(Long id) throws ClientNotFoundException {
+        ClientDTOs clientDTOs = getClientById(id);
+        if(clientDTOs == null){
             throw new ClientNotFoundException("Client not found with id: " + id);
         }
-        return client.getOrders();
+        List<OrderDTOs>orderDTOsList = new ArrayList<>();
+        for (Order order:clientDTOs.getOrders()) {
+            OrderDTOs orderDTOs = new OrderDTOs(order);
+            orderDTOsList.add(orderDTOs);
+        }
+        return orderDTOsList;
     }
 
 

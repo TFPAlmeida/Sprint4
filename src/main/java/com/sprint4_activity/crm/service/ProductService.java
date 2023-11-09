@@ -3,6 +3,7 @@ package com.sprint4_activity.crm.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sprint4_activity.crm.dtos.ProductDTOs;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import lombok.NoArgsConstructor;
@@ -23,15 +24,16 @@ public class ProductService {
 
     private ProductRepository repository;
 
-    public Product saveProduct(ProductRequest request) {
+    public ProductDTOs saveProduct(ProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
         product.setQuantity(request.getQuantity());
         product.setPrice(request.getPrice());
-        return repository.save(product);
+        return new ProductDTOs(repository.save(product));
     }
 
-    public List<Product> saveProducts(List<ProductRequest> requests) {
+    public List<ProductDTOs> saveProducts(List<ProductRequest> requests) {
+        List<ProductDTOs> productDTOsList = new ArrayList<>();
         List<Product> products = new ArrayList<>();
         for (ProductRequest request : requests) {
             Product product = new Product();
@@ -39,36 +41,44 @@ public class ProductService {
             product.setQuantity(request.getQuantity());
             product.setPrice(request.getPrice());
             products.add(product);
+            ProductDTOs productDTOs = new ProductDTOs(product);
+            productDTOsList.add(productDTOs);
         }
-        return repository.saveAll(products);
+        repository.saveAll(products);
+        return productDTOsList;
     }
 
-    public List<Product> getAllProducts() {
-        return repository.findAll();
+    public List<ProductDTOs> getAllProducts() {
+        List<ProductDTOs> productDTOsList = new ArrayList<>();
+        for (Product product: repository.findAll()) {
+            ProductDTOs productDTOs = new ProductDTOs(product);
+            productDTOsList.add(productDTOs);
+        }
+        return productDTOsList;
     }
 
-    public Product getProductByID(long id) throws ProductNotFoundException {
+    public ProductDTOs getProductByID(long id) throws ProductNotFoundException {
         if (repository.existsById(id)) {
-            return repository.findProductById(id);
+            return new ProductDTOs(repository.findProductById(id));
         } else {
             throw new ProductNotFoundException("Product not found with id: " + id);
         }
     }
 
-    public Product getProductByName(String name) throws ProductNotFoundException {
+    public ProductDTOs getProductByName(String name) throws ProductNotFoundException {
         if (repository.existsByName(name)) {
-            return repository.findProductByName(name);
+            return new ProductDTOs(repository.findProductByName(name));
         } else {
             throw new ProductNotFoundException("Product not found with id: " + name);
         }
     }
 
-    public Product updateProduct(Product product) throws ProductNotFoundException {
+    public ProductDTOs updateProduct(Product product) throws ProductNotFoundException {
 
         if (!repository.existsById(product.getId())) {
             throw new ProductNotFoundException("Product not found: " + product.getId());
         }
-        return repository.save(product);
+        return new ProductDTOs(repository.save(product));
     }
 
     public ResponseEntity<String> deleteProduct(long id) throws ProductNotFoundException {

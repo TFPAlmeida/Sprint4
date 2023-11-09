@@ -2,6 +2,7 @@ package com.sprint4_activity.crm.controller;
 
 import java.util.List;
 
+import com.sprint4_activity.crm.dtos.OrderDTOs;
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
@@ -27,18 +28,18 @@ public class OrderController {
     private OrderService service;
 
     @GetMapping("/getOrders")
-    private ResponseEntity<List<Order>> findAllOrders() {
+    private ResponseEntity<List<OrderDTOs>> findAllOrders() {
         return ResponseEntity.ok(service.getAllOrders());
     }
 
     @GetMapping("/getOrderById/{id}")
-    private ResponseEntity<Order> findOrderById(@PathVariable long id) throws OrderNotFoundException {
+    private ResponseEntity<OrderDTOs> findOrderById(@PathVariable long id) throws OrderNotFoundException {
         return ResponseEntity.ok(service.getOrderById(id));
     }
 
     @PostMapping("/placeOrder")
-    public ResponseEntity<Order> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException{
-        Order order = service.placeOrder(orderRequest);
+    public ResponseEntity<OrderDTOs> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException{
+        OrderDTOs order = service.placeOrder(orderRequest);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 }

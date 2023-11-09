@@ -2,6 +2,7 @@ package com.sprint4_activity.crm.controller;
 
 import java.util.List;
 
+import com.sprint4_activity.crm.dtos.ProductDTOs;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,33 +34,33 @@ public class ProductController {
     private ProductService service;
 
     @PostMapping("/addProduct")
-    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductRequest productRequest) {
+    public ResponseEntity<ProductDTOs> addProduct(@RequestBody @Valid ProductRequest productRequest) {
         return new ResponseEntity<>(service.saveProduct(productRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/addProducts")
-    public ResponseEntity<List<Product>> addProducts(@RequestBody @Valid List<ProductRequest> productRequest) {
+    public ResponseEntity<List<ProductDTOs>> addProducts(@RequestBody @Valid List<ProductRequest> productRequest) {
         return new ResponseEntity<>(service.saveProducts(productRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/getProducts")
-    public ResponseEntity<List<Product>> findAllProducts() {
+    public ResponseEntity<List<ProductDTOs>> findAllProducts() {
         return ResponseEntity.ok(service.getAllProducts());
     }
 
     @GetMapping("/getProductById/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable long id) throws ProductNotFoundException {
+    public ResponseEntity<ProductDTOs> getProductById(@PathVariable long id) throws ProductNotFoundException {
         return ResponseEntity.ok(service.getProductByID(id));
     }
 
 
     @GetMapping("/getProductByName/{name}")
-    public ResponseEntity<Product> getProductByName(@PathVariable String name) throws ProductNotFoundException {
+    public ResponseEntity<ProductDTOs> getProductByName(@PathVariable String name) throws ProductNotFoundException {
         return ResponseEntity.ok(service.getProductByName(name));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) throws ProductNotFoundException {
+    public ResponseEntity<ProductDTOs> updateProduct(@RequestBody Product product) throws ProductNotFoundException {
         return ResponseEntity.ok(service.updateProduct(product));
     }
 

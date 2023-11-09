@@ -2,6 +2,8 @@ package com.sprint4_activity.crm.controller;
 
 import java.util.List;
 
+import com.sprint4_activity.crm.dtos.ClientDTOs;
+import com.sprint4_activity.crm.dtos.OrderDTOs;
 import com.sprint4_activity.crm.entity.Order;
 import com.sprint4_activity.crm.exception.ClientNotFoundException;
 import lombok.NoArgsConstructor;
@@ -33,32 +35,32 @@ public class ClientController {
     private ClientService service;
 
     @PostMapping("/addClient")
-    public ResponseEntity<Client> addClient(@RequestBody @Valid ClientRequest clientRequest) {
+    public ResponseEntity<ClientDTOs> addClient(@RequestBody @Valid ClientRequest clientRequest) {
         return new ResponseEntity<>(service.saveClient(clientRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/addClients")
-    public ResponseEntity<List<Client>> addClients(@RequestBody @Valid List<ClientRequest> clientRequest) {
+    public ResponseEntity<List<ClientDTOs>> addClients(@RequestBody @Valid List<ClientRequest> clientRequest) {
         return new ResponseEntity<>(service.saveClients(clientRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/getClients")
-    public ResponseEntity<List<Client>> findAllClients() {
+    public ResponseEntity<List<ClientDTOs>> findAllClients() {
         return ResponseEntity.ok(service.getAllClients());
     }
 
     @GetMapping("/getClientById/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable long id) throws ClientNotFoundException {
+    public ResponseEntity<ClientDTOs> getClientById(@PathVariable long id) throws ClientNotFoundException {
         return ResponseEntity.ok(service.getClientById(id));
     }
 
     @GetMapping("/getClientOrdersById/{id}")
-    public ResponseEntity<List<Order>> getClientOrdersById(@PathVariable long id) throws ClientNotFoundException {
+    public ResponseEntity<List<OrderDTOs>> getClientOrdersById(@PathVariable long id) throws ClientNotFoundException {
         return ResponseEntity.ok(service.getOrdersForClient(id));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Client> updateClient(@RequestBody Client client) throws ClientNotFoundException {
+    public ResponseEntity<ClientDTOs> updateClient(@RequestBody Client client) throws ClientNotFoundException {
         return ResponseEntity.ok(service.updateClient(client));
     }
 
