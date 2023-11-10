@@ -1,14 +1,9 @@
 package com.sprint4_activity.crm.entity;
 
-import com.sprint4_activity.crm.dtos.ProductDTOs;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -24,10 +19,4 @@ public class Product {
 	private long quantity;
 	private float price;
 
-	public Product(ProductDTOs productDTOs) {
-		this.setId(productDTOs.getId());
-		this.setName(productDTOs.getName());
-		this.setQuantity(productDTOs.getQuantity());
-		this.setPrice(productDTOs.getPrice());
-	}
 }

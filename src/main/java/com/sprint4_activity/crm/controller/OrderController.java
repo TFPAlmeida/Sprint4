@@ -7,18 +7,13 @@ import com.sprint4_activity.crm.exception.ClientNotFoundException;
 import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.request.OrderRequest;
-import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import com.sprint4_activity.crm.entity.Order;
 import com.sprint4_activity.crm.service.OrderService;
-
 import lombok.AllArgsConstructor;
+
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
@@ -28,7 +23,7 @@ public class OrderController {
     private OrderService service;
 
     @GetMapping("/getOrders")
-    private ResponseEntity<List<OrderDTOs>> findAllOrders() {
+    private ResponseEntity<List<OrderDTOs>> findAllOrders() throws OrderNotFoundException {
         return ResponseEntity.ok(service.getAllOrders());
     }
 
@@ -38,7 +33,7 @@ public class OrderController {
     }
 
     @PostMapping("/placeOrder")
-    public ResponseEntity<OrderDTOs> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException{
+    public ResponseEntity<OrderDTOs> placeOrder(@RequestBody @Valid OrderRequest orderRequest) throws ClientNotFoundException, ProductNotFoundException, OrderNotFoundException {
         OrderDTOs order = service.placeOrder(orderRequest);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }

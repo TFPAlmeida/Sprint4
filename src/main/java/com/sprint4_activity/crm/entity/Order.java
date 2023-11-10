@@ -1,20 +1,12 @@
 package com.sprint4_activity.crm.entity;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.sprint4_activity.crm.Info;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Data
@@ -34,7 +26,10 @@ public class Order {
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
 	private List<Product> products;
-	private List<Long> productQuantity;
+	@ElementCollection
+	@CollectionTable(name = "order_product_quantities", joinColumns = @JoinColumn(name = "order_id"))
+	@Column(name = "product_quantity")
+	private List<Info> info;
 	@ManyToOne
 	private Client client;
 	private LocalDate creationDate;

@@ -4,8 +4,10 @@ package com.sprint4_activity.crm.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sprint4_activity.crm.Info;
+import com.sprint4_activity.crm.dtos.ClientDTOs;
 import com.sprint4_activity.crm.dtos.OrderDTOs;
 import com.sprint4_activity.crm.entity.Client;
 import com.sprint4_activity.crm.entity.Product;
@@ -14,18 +16,24 @@ import com.sprint4_activity.crm.exception.OrderNotFoundException;
 import com.sprint4_activity.crm.exception.ProductNotFoundException;
 import com.sprint4_activity.crm.repository.ClientRepository;
 import com.sprint4_activity.crm.request.OrderRequest;
-import jakarta.transaction.Transactional;
+
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.sprint4_activity.crm.entity.Order;
 import com.sprint4_activity.crm.repository.OrderRepository;
 
 import lombok.AllArgsConstructor;
 
+import javax.transaction.Transactional;
+
 @AllArgsConstructor
 @Service
 public class OrderService {
 
-
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
     public OrderRepository orderRepository;
 
     public ClientRepository clientRepository;
@@ -34,54 +42,74 @@ public class OrderService {
 
     private ClientService clientService;
 
-    public List<OrderDTOs> getAllOrders() {
-        List<OrderDTOs> orderDTOsList = new ArrayList<>();
-        for (Order order:orderRepository.findAll()) {
-            OrderDTOs orderDTOs = new OrderDTOs(order);
-            orderDTOsList.add(orderDTOs);
+    public List<OrderDTOs> getAllOrders() throws OrderNotFoundException {
+        ModelMapper modelMapper = new ModelMapper();
+
+        if (orderRepository.findAll().isEmpty()){
+            throw new OrderNotFoundException("Não foram encontrados encomendas na DB.");
         }
-        return orderDTOsList;
+
+        try {
+            return orderRepository.findAll().stream()
+                    .map(order -> modelMapper.map(order, OrderDTOs.class))
+                    .collect(Collectors.toList());
+        }catch (DataAccessException e){
+            log.error("Erro a obter emcomendas.", e);
+            throw new OrderNotFoundException("Erro a obter ecomendas. Detalhes: " + e.getMessage());
+        }
+
     }
 
     public OrderDTOs getOrderById(long id) throws OrderNotFoundException {
+        ModelMapper modelMapper = new ModelMapper();
 
-        if (orderRepository.existsById(id)) {
-            return new OrderDTOs(orderRepository.findOrderById(id));
-        } else {
-            throw new OrderNotFoundException("Order not found with id: " + id);
+        if (!orderRepository.existsById(id)){
+            throw new OrderNotFoundException("Não existe encomenda com o id: " + id + " na DB");
+        }
+
+        try {
+            return modelMapper.map(orderRepository.findOrderById(id), OrderDTOs.class);
+        }catch (DataAccessException e){
+            log.error("Erro a obter a encomenda.", e);
+            throw new OrderNotFoundException("Erro a obter a encomenda com id: " + id + ". Detalhes: " + e.getMessage());
         }
     }
 
     @Transactional
-    public OrderDTOs placeOrder(OrderRequest request) throws ClientNotFoundException, ProductNotFoundException {
-        Client client = new Client(clientService.getClientById(request.getClientID()));
+    public OrderDTOs placeOrder(OrderRequest request) throws ClientNotFoundException, ProductNotFoundException, OrderNotFoundException {
+        ModelMapper modelMapper = new ModelMapper();
+        Client client = modelMapper.map(clientService.getClientById(request.getClientID()), Client.class);
         if (client == null) {
-            throw new ClientNotFoundException("Cliente não encontrado: " + request.getClientID());
-        }
-        List<Product> products = new ArrayList<>();
-        List<Long> quantity = new ArrayList<>();
-        float price = 0;
-        for (Info info : request.getProductInfo()) {
-            Product product = new Product(productService.getProductByID(info.getProductID()));
-            if (product == null) {
-                throw new ProductNotFoundException("Produto não encontrado: " + info.getProductID());
-            }
-            products.add(product);
-            quantity.add(info.getProductQuantity());
-            price = price + info.getProductQuantity() * product.getPrice();
+            throw new ClientNotFoundException("Erro a obter o cliente com id: " + request.getClientID());
         }
 
-        Order order = new Order();
-        order.setProducts(products);
-        order.setProductQuantity(quantity);
-        order.setClient(client);
-        order.setCreationDate(LocalDate.now());
-        order.setPrice(price);
-        client.getOrders().add(order);
-        //;
-        orderRepository.save(order);
-        clientRepository.save(client);
-        return new OrderDTOs(order);
+        try {
+            List<Product> products = new ArrayList<>();
+            float price = 0;
+            for (Info info : request.getProductInfo()) {
+                Product product = modelMapper.map(productService.getProductByID(info.getProductID()), Product.class);
+                if (product == null) {
+                    throw new ProductNotFoundException("Produto não encontrado: " + info.getProductID());
+                }
+                products.add(product);
+                price = price + info.getProductQuantity() * product.getPrice();
+            }
+
+            Order order = new Order();
+            order.setProducts(products);
+            order.setInfo(request.getProductInfo());
+            order.setClient(client);
+            order.setCreationDate(LocalDate.now());
+            order.setPrice(price);
+            client.getOrders().add(order);
+            orderRepository.save(order);
+            clientRepository.save(client);
+            return modelMapper.map(order,OrderDTOs.class);
+
+        }catch (DataAccessException e){
+            log.error("Erro a criar a encomenda.", e);
+            throw new OrderNotFoundException("Erro a criar encomenda. Detalhes: " + e.getMessage());
+        }
 
     }
 }

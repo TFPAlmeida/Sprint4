@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sprint4_activity.crm.dtos.ClientDTOs;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 
 @Data
@@ -30,9 +29,4 @@ public class Client {
         this.getOrders().add(order);
     }
 
-	public Client(ClientDTOs clientDTOs) {
-		this.setId(clientDTOs.getId());
-		this.setName(clientDTOs.getName());
-		this.setOrders(clientDTOs.getOrders());
-	}
 }
